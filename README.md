@@ -121,11 +121,5 @@ Open issues or submit PRs via
 
 ---
 
-## 📄 License
-
-MIT License — see [`LICENSE`](https://github.com/dhart54/ai-learning-plan-gradio/blob/main/LICENSE)
-
----
-
 Built with ❤️ by Dylan Hart.
 Prompt structure and app logic refined via GPT-4 and Claude.
