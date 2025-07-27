@@ -226,10 +226,11 @@ Customize the fields below and click **Generate Plan** to create a personalized 
     with gr.Row():
         generate_btn = gr.Button("🚀 Generate Plan")
         load_example_btn = gr.Button("📋 Load Example")
-        copy_btn = gr.Button("📎 Copy to Clipboard")
+
     output = gr.Textbox(label="Generated Learning Plan", lines=30, show_copy_button=True)
 
     generate_btn.click(generate_prompt_fn, inputs=inputs, outputs=output)
     load_example_btn.click(fn=lambda: example_inputs, inputs=[], outputs=inputs)
+
 
 app.launch()
