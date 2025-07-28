@@ -5,12 +5,17 @@ from string import Template
 
 # 🔒 LOCKED PROMPT
 BANNER_HTML = """
-<div style='background-color:#fffae6; border:1px solid #f5c542; padding:10px; margin-bottom:10px;'>
-<strong>IMPORTANT:</strong> This prompt <em>requires ChatGPT Search (web browsing)</em> enabled.
-Please run it using ChatGPT with the Search tool or "Browse with Bing" activated.
-Without browsing, the live link‑validation rules cannot be enforced.
-</div>
-"""
+    <div style="background-color:#fffae6; border:1px solid #f5c542; padding:10px; margin-bottom:10px; color: #000;">
+        <strong style="color: #000;">IMPORTANT:</strong>
+        <span style="color: #000;">
+            This prompt <em style="color: #000;">requires ChatGPT Search (web browsing)</em> enabled.
+            Please run it using ChatGPT with the Search tool or "Browse with Bing" activated.
+            Without browsing, the live link-validation rules cannot be enforced.
+        </span>
+    </div>
+    """
+
+
 
 FULL_PROMPT_INSTRUCTIONS = """
 SYSTEM:
@@ -26,7 +31,7 @@ MANDATORY Verification Procedure (must comply):
 For *each* resource (both 📚 What to Learn and 🎷 Passive Learning), **before listing it**, the assistant **must**:
 
 1. Execute:
-   search_query("Exact Resource Title – Instructor/Host – Platform", recency_days=30)
+   search_query("Exact Resource Title – Instructor/Host – Platform", recency_days=90)
 
 2. Immediately run:
    open_url(<index of the top result>)
@@ -86,25 +91,25 @@ Do NOT include any headers or emojis beyond those six section markers and the �
 ---BEGIN LEARNING PLAN---
 
 # AI Efficiency Learning Plan
-### Personalized for ${role} | Duration: ${total_weeks} weeks | Weekly Commitment: ${hours_per_week} hours
+### Personalized for ${role} | Duration: ${weeks} weeks | Weekly Commitment: ${weekly_hours} hours
 
 🧑‍💼 Learner Profile
 - Role: ${role}
 - Day‑to‑day responsibilities: ${responsibilities}
-- Weekly learning time available: ${hours_per_week} hours
-- Total duration: ${total_weeks} weeks
-- Team Function: ${team_function}
-- Technical Comfort Level: ${tech_level}
+- Weekly learning time available: ${weekly_hours} hours
+- Total duration: ${weeks} weeks
+- Team Function: ${team}
+- Technical Comfort Level: ${comfort}
 - AI Tools Available: ${ai_tools}
-- Internal Collaboration Tools: ${internal_tools}
-- Learning Platforms: ${learning_platforms}
-- Current Tools or Skills: ${tools_skills_confidence}
-- Career Aspiration for This Plan: ${goal}
-- AI Use Case You’d Like to Explore: ${ai_use_case}
-- Management Level: ${mgmt_level}
-- Role Complexity: ${role_complexity}
-- Preferred Learning Style: ${learning_style}
-- Client Persona: ${client_persona}
+- Internal Collaboration Tools: ${collab}
+- Learning Platforms: ${platforms}
+- Current Tools or Skills: ${skills}
+- Career Aspiration for This Plan: ${aspiration}
+- AI Use Case You’d Like to Explore: ${use_case}
+- Management Level: ${level}
+- Role Complexity: ${complexity}
+- Preferred Learning Style: ${style}
+- Client Persona: ${persona}
 
 ---
 
@@ -218,48 +223,48 @@ List paid tools likely required + cost estimate (e.g., ChatGPT Plus, Claude via 
 def get_input_fields():
     with gr.Row():
         role = gr.Textbox(label="Role", placeholder="e.g., Marketing Data Analyst", info="What is the learner's job title?")
-        mgmt_level = gr.Dropdown(label="Management Level", choices=["Individual Contributor", "Manager", "Director", "VP/Exec"], info="Select the user's current management level")
-        role_complexity = gr.Dropdown(label="Role Complexity", choices=["Entry-level", "Mid-level", "Senior", "Specialist"], info="How technically complex is their role?")
+        level = gr.Dropdown(label="Management Level", choices=["Individual Contributor", "Manager", "Director", "VP/Exec"], info="Select the user's current management level")
+        complexity = gr.Dropdown(label="Role Complexity", choices=["Entry-level", "Mid-level", "Senior", "Specialist"], info="How technically complex is their role?")
 
     with gr.Row():
         responsibilities = gr.Textbox(label="Day-to-Day Responsibilities", lines=2, placeholder="e.g., Analyze customer engagement, build dashboards", info="Brief overview of key job tasks")
-        team_function = gr.Textbox(label="Team Function", placeholder="e.g., CRM & Lifecycle", info="What function or team does the user sit in?")
+        team = gr.Textbox(label="Team Function", placeholder="e.g., CRM & Lifecycle", info="What function or team does the user sit in?")
 
     with gr.Row():
-        hours_per_week = gr.Slider(1, 10, value=3, step=1, label="Weekly Learning Time Available (hours)")
-        total_weeks = gr.Slider(4, 26, value=12, step=1, label="Total Duration (weeks)")
+        weekly_hours = gr.Slider(1, 10, value=3, step=1, label="Weekly Learning Time Available (hours)")
+        weeks = gr.Slider(4, 26, value=12, step=1, label="Total Duration (weeks)")
 
     with gr.Row():
-        tech_level = gr.Dropdown(label="Technical Comfort Level", choices=["Beginner", "Moderately comfortable", "Very comfortable"], info="How comfortable is the learner with AI tools and tech?")
-        learning_style = gr.Dropdown(label="Preferred Learning Style", choices=["Video-based", "Reading-based", "Hands-on Projects", "Mixed"], info="How do they prefer to learn?")
+        comfort = gr.Dropdown(label="Technical Comfort Level", choices=["Beginner", "Moderately comfortable", "Very comfortable"], info="How comfortable is the learner with AI tools and tech?")
+        style = gr.Dropdown(label="Preferred Learning Style", choices=["Video-based", "Reading-based", "Hands-on Projects", "Mixed"], info="How do they prefer to learn?")
 
     with gr.Row():
         ai_tools = gr.Textbox(label="AI Tools Available", placeholder="e.g., ChatGPT, Copilot, Gemini", info="Comma-separated tools they already have access to")
-        internal_tools = gr.Textbox(label="Internal Collaboration Tools", placeholder="e.g., Slack, Teams, Drive", info="Internal tooling environment")
+        collab = gr.Textbox(label="Internal Collaboration Tools", placeholder="e.g., Slack, Teams, Drive", info="Internal tooling environment")
 
     with gr.Row():
-        learning_platforms = gr.Textbox(label="Learning Platforms", placeholder="e.g., Udemy, Coursera, Cloud Skills Boost", info="List platforms available to them")
-        tools_skills_confidence = gr.Textbox(label="Current Tools or Skills", placeholder="e.g., SQL (Advanced), Looker Studio (Intermediate)", info="Current technical proficiencies")
+        platforms = gr.Textbox(label="Learning Platforms", placeholder="e.g., Udemy, Coursera, Cloud Skills Boost", info="List platforms available to them")
+        skills = gr.Textbox(label="Current Tools or Skills", placeholder="e.g., SQL (Advanced), Looker Studio (Intermediate)", info="Current technical proficiencies")
 
     with gr.Row():
-        goal = gr.Textbox(label="Career Aspiration for This Plan", lines=2, placeholder="e.g., Speed up analysis, automate workflows", info="What do they hope to gain from this learning?")
-        ai_use_case = gr.Textbox(label="AI Use Case They’d Like to Explore", lines=2, placeholder="e.g., Prepare for agent workflows", info="Practical use case of AI in their role")
+        aspiration = gr.Textbox(label="Career Aspiration for This Plan", lines=2, placeholder="e.g., Speed up analysis, automate workflows", info="What do they hope to gain from this learning?")
+        use_case = gr.Textbox(label="AI Use Case They’d Like to Explore", lines=2, placeholder="e.g., Prepare for agent workflows", info="Practical use case of AI in their role")
 
     with gr.Row():
-        client_persona = gr.Textbox(label="Client Persona (Optional)", placeholder="e.g., OEM marketing lead", info="Client context if known")
+        persona = gr.Textbox(label="Client Persona (Optional)", placeholder="e.g., OEM marketing lead", info="Client context if known")
 
     return [
-        role, mgmt_level, role_complexity, responsibilities, team_function, hours_per_week, total_weeks,
-        tech_level, learning_style, ai_tools, internal_tools, learning_platforms, tools_skills_confidence,
-        goal, ai_use_case, client_persona
+        role, level, complexity, responsibilities, team, weekly_hours, weeks,
+        comfort, style, ai_tools, collab, platforms, skills,
+        aspiration, use_case, persona
     ]
 
 # ---------------------------- PROMPT GENERATION --------------------------
 def generate_prompt_fn(*inputs):
     fields = [
-        "role", "mgmt_level", "role_complexity", "responsibilities", "team_function", "hours_per_week", "total_weeks",
-        "tech_level", "learning_style", "ai_tools", "internal_tools", "learning_platforms", "tools_skills_confidence",
-        "goal", "ai_use_case", "client_persona"
+        "role", "level", "complexity", "responsibilities", "team", "weekly_hours", "weeks",
+        "comfort", "style", "ai_tools", "collab", "platforms", "skills",
+        "aspiration", "use_case", "persona"
     ]
     learnerProfile = dict(zip(fields, inputs))
     try:
