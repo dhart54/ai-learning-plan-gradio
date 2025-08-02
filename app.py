@@ -31,15 +31,19 @@ MANDATORY Verification Procedure (must comply):
 For *each* resource (both 📚 What to Learn and 🎷 Passive Learning), **before listing it**, the assistant **must**:
 
 1. Execute:
-   search_query("Exact Resource Title – Instructor/Host – Platform", recency_days=90)
+   search_query("Exact Resource Title – Instructor/Host – Platform")
 
 2. Immediately run:
    open_url(<index of the top result>)
 
 3. Confirm:
-   - It is a live, official landing page
-   - From a trusted domain (e.g. coursera.org, openai.com, spotify.com, YouTube official channel)
-   - The title/instructor matches exactly
+   - ✅ Link is live and loads successfully
+   - ✅ Matches the official or authoritative source (e.g., coursera.org, openai.com, spotify.com, YouTube official channel)
+   - ✅ The title/instructor/host matches exactly
+   - ✅ Resource is either:
+     - Published or updated in the past 3 months, OR
+     - Actively maintained (e.g. new cohorts, repo commits, recent episodes), OR
+     - Still widely recommended and cited in recent trusted sources
 
 4. If *verified*, list exactly one line:
    "[Descriptive Title – Instructor/Host – Platform] – [Format] – [Markdown full link]"
@@ -214,6 +218,7 @@ List paid tools likely required + cost estimate (e.g., ChatGPT Plus, Claude via 
 
 📄 Final output should be clean, readable, and copy‑paste friendly for Google Docs or Microsoft Word
 """
+
 
 # 🔒 LOCKED PROMPT END
 
